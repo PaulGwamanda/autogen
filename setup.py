@@ -15,9 +15,11 @@ __version__ = version["__version__"]
 
 install_requires = [
     "openai",
+    "litellm",
     "diskcache",
     "termcolor",
     "flaml",
+    "python-dotenv",
 ]
 
 
@@ -39,6 +41,7 @@ setuptools.setup(
     extras_require={
         "test": [
             "chromadb",
+            "lancedb",
             "coverage>=5.3",
             "datasets",
             "ipykernel",

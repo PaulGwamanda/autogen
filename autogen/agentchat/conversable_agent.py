@@ -87,9 +87,9 @@ class ConversableAgent(Agent):
                     If a list or a str of image name(s) is provided, the code will be executed in a docker container
                     with the first image successfully pulled.
                     If None, False or empty, the code will be executed in the current environment.
-                    Default is True, which will be converted into a list.
-                    If the code is executed in the current environment,
-                    the code must be trusted.
+                    Default is True when the docker python package is installed.
+                    When set to True, a default list will be used.
+                    We strongly recommend using docker for code execution.
                 - timeout (Optional, int): The maximum execution time in seconds.
                 - last_n_messages (Experimental, Optional, int): The number of messages to look back for code execution. Default to 1.
             llm_config (dict or False): llm inference configuration.
@@ -627,6 +627,8 @@ class ConversableAgent(Agent):
         # if no code blocks are found, continue
         for i in range(min(len(messages), last_n_messages)):
             message = messages[-(i + 1)]
+            if not message["content"]:
+                continue
             code_blocks = extract_code(message["content"])
             if len(code_blocks) == 1 and code_blocks[0][0] == UNKNOWN:
                 continue
